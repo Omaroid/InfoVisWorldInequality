@@ -1,0 +1,334 @@
+code	name
+AD	Andorra
+AE	United Arab Emirates
+AF	Afghanistan
+AG	Antigua and Barbuda
+AI	Anguilla
+AL	Albania
+AM	Armenia
+AN	Netherlands Antilles
+AO	Angola
+AR	Argentina
+AS	American Samoa
+AT	Austria
+AU	Australia
+AW	Aruba
+AZ	Azerbaijan
+BA	Bosnia and Herzegovina
+BB	Barbados
+BD	Bangladesh
+BE	Belgium
+BF	Burkina Faso
+BG	Bulgaria
+BH	Bahrain
+BI	Burundi
+BJ	Benin
+BM	Bermuda
+BN	Brunei Darussalam
+BO	Bolivia
+BR	Brazil
+BS	Bahamas
+BT	Bhutan
+BW	Botswana
+BY	Belarus
+BZ	Belize
+CA	Canada
+CD	DR Congo
+CF	Central African Republic
+CG	Congo
+CH	Switzerland
+CI	Cote d'Ivoire
+CK	Cook Islands
+CL	Chile
+CM	Cameroon
+CN-RU	Rural China
+CN-UR	Urban China
+CN	China
+CO	Colombia
+CR	Costa Rica
+CS	Czechoslovakia
+CU	Cuba
+CV	Cabo Verde
+CW	Curacao
+CY	Cyprus
+CZ	Czech Republic
+DD	German Democratic Republic
+DE-BD	Baden
+DE-BY	Bavaria
+DE-HB	Bremen
+DE-HE	Hesse
+DE-HH	Hamburg
+DE-PR	Prussia
+DE-SN	Saxony
+DE-WU	Wurttemberg
+DE	Germany
+DJ	Djibouti
+DK	Denmark
+DM	Dominica
+DO	Dominican Republic
+DZ	Algeria
+EC	Ecuador
+EE	Estonia
+EG	Egypt
+EH	Western Sahara
+ER	Eritrea
+ES	Spain
+ET	Ethiopia
+FI	Finland
+FJ	Fiji
+FK	Falkland Islands
+FM	Micronesia
+FO	Faroe Islands
+FR	France
+GA	Gabon
+GB	United Kingdom
+GD	Grenada
+GE	Georgia
+GH	Ghana
+GI	Gibraltar
+GL	Greenland
+GM	Gambia
+GN	Guinea
+GQ	Equatorial Guinea
+GR	Greece
+GT	Guatemala
+GU	Guam
+GW	Guinea-Bissau
+GY	Guyana
+HK	Hong Kong
+HN	Honduras
+HR	Croatia
+HT	Haiti
+HU	Hungary
+ID	Indonesia
+IE	Ireland
+IL	Israel
+IM	Isle of Man
+IN	India
+IQ	Iraq
+IR	Iran
+IS	Iceland
+IT	Italy
+JM	Jamaica
+JO	Jordan
+JP	Japan
+KE	Kenya
+KG	Kyrgyzstan
+KH	Cambodia
+KI	Kiribati
+KM	Comoros
+KN	Saint Kitts and Nevis
+KP	North Korea
+KR	Korea
+KS	Kosovo
+KW	Kuwait
+KY	Cayman Islands
+KZ	Kazakhstan
+LA	Lao PDR
+LB	Lebanon
+LC	Saint Lucia
+LI	Liechtenstein
+LK	Sri Lanka
+LR	Liberia
+LS	Lesotho
+LT	Lithuania
+LU	Luxembourg
+LV	Latvia
+LY	Libya
+MA	Morocco
+MC	Monaco
+MD	Moldova
+ME	Montenegro
+MG	Madagascar
+MH	Marshall Islands
+MK	Macedonia
+ML	Mali
+MM	Myanmar
+MN	Mongolia
+MO	Macao
+MP	Northern Mariana Islands
+MR	Mauritania
+MS	Montserrat
+MT	Malta
+MU	Mauritius
+MV	Maldives
+MW	Malawi
+MX	Mexico
+MY	Malaysia
+MZ	Mozambique
+NA	Namibia
+NC	New Caledonia
+NE	Niger
+NG	Nigeria
+NI	Nicaragua
+NL	Netherlands
+NO	Norway
+NP	Nepal
+NR	Nauru
+NU	Niue
+NZ	New Zealand
+OM	Oman
+PA	Panama
+PE	Peru
+PF	French Polynesia
+PG	Papua New Guinea
+PH	Philippines
+PK	Pakistan
+PL	Poland
+PM	Saint Pierre and Miquelon
+PR	Puerto Rico
+PS	Palestine
+PT	Portugal
+PW	Palau
+PY	Paraguay
+QA	Qatar
+QB	Africa
+QC	Americas
+QD	Asia
+QE	Europe
+QF-MER	null
+QF	Oceania
+QG	Australia and New Zealand
+QH	Caribbean
+QI	Central America
+QJ	Central Asia
+QK	Eastern Africa
+QL	Eastern Asia
+QM	Eastern Europe
+QN	Middle Africa
+QO	Northern Africa
+QP	Northern America
+QQ	Oceania (excl. Australia and New Zealand)
+QR	South America
+QS	South-Eastern Asia
+QT	Southern Africa
+QU	Southern Asia
+QV	Western Africa
+QW	Western Asia
+QX	Western Europe
+QY	European Union
+RO	Romania
+RS	Serbia
+RU	Russian Federation
+RW	Rwanda
+SA	Saudi Arabia
+SB	Solomon Islands
+SC	Seychelles
+SD	Sudan
+SE	Sweden
+SG	Singapore
+SH	Saint Helena
+SI	Slovenia
+SK	Slovakia
+SL	Sierra Leone
+SM	San Marino
+SN	Senegal
+SO	Somalia
+SR	Suriname
+SS	South Sudan
+ST	Sao Tome and Principe
+SU	USSR
+SV	El Salvador
+SX	Sint Maarten (Dutch part)
+SY	Syrian Arab Republic
+SZ	Swaziland
+TC	Turks and Caicos Islands
+TD	Chad
+TG	Togo
+TH	Thailand
+TJ	Tajikistan
+TK	Tokelau
+TL	Timor-Leste
+TM	Turkmenistan
+TN	Tunisia
+TO	Tonga
+TR	Turkey
+TT	Trinidad and Tobago
+TV	Tuvalu
+TW	Taiwan
+TZ	Tanzania
+UA	Ukraine
+UG	Uganda
+US-AK	Alaska
+US-AL	Alabama
+US-AR	Arkansas
+US-AZ	Arizona
+US-CA	California
+US-CO	Colorado
+US-CT	Connecticut
+US-DC	District of Columbia
+US-DE	Delaware
+US-FL	Florida
+US-GA	Georgia
+US-HI	Hawaii
+US-IA	Iowa
+US-ID	Idaho
+US-IL	Illinois
+US-IN	Indiana
+US-KS	Kansas
+US-KY	Kentucky
+US-LA	Louisiana
+US-MA	Massachusetts
+US-MD	Maryland
+US-ME	Maine
+US-MI	Michigan
+US-MN	Minnesota
+US-MO	Missouri
+US-MS	Mississippi
+US-MT	Montana
+US-NC	North Carolina
+US-ND	North Dakota
+US-NE	Nebraska
+US-NH	New Hampshire
+US-NJ	New Jersey
+US-NM	New Mexico
+US-NV	Nevada
+US-NY	New York
+US-OH	Ohio
+US-OK	Oklahoma
+US-OR	Oregon
+US-PA	Pennsylvania
+US-RI	Rhode Island
+US-SC	South Carolina
+US-SD	South Dakota
+US-TN	Tennessee
+US-TX	Texas
+US-UT	Utah
+US-VA	Virginia
+US-VT	Vermont
+US-WA	Washington
+US-WI	Wisconsin
+US-WV	West Virginia
+US-WY	Wyoming
+US	USA
+UY	Uruguay
+UZ	Uzbekistan
+VA	Holy See
+VC	Saint Vincent and the Grenadines
+VE	Venezuela
+VG	Virgin Islands, British
+VI	Virgin Islands, US
+VN	Viet Nam
+VU	Vanuatu
+WF	Wallis and Futuna
+WO-MER	World (Market Exchange Rate)
+WO	World
+WS	Samoa
+XA-MER	Asia (excluding Middle East), Market Exchange Rate
+XA	Asia (excl. Middle East)
+XF-MER	Sub-Saharan Africa, Market Exchange Rate
+XF	Sub-Saharan Africa
+XI	Channel Islands
+XL-MER	Latin America, Market Exchange Rate
+XL	Latin America
+XM	Middle East
+XN-MER	Middle East and Northern Africa, Market Exchange Rate
+XN	Middle East and Northern Africa
+XR-MER	Russia and Ukraine, Market Exchange Rate
+XR	Russia and Ukraine
+YE	Yemen
+YU	Yugoslavia
+ZA	South Africa
+ZM	Zambia
+ZW	Zimbabwe
+ZZ	Zanzibar
