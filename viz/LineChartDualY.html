@@ -21,8 +21,13 @@
     }
 
     /* Style the dots by assigning a fill and stroke */
-    .dot {
-        fill: #ffab00;
+    .dot1 {
+        fill: #ff0000;
+        stroke: #fff;
+    }
+
+    .dot2 {
+        fill: #0000ff;
         stroke: #fff;
     }
 </style>
@@ -35,7 +40,10 @@
                     <svg width="625" height="625" font-family="sans-serif" font-size="10"></svg>
                 </div>
                 <div class="col-4">
-                    <h3>Line Chart with dual Y axis</h3>
+                    <h2 class="text-center">Line Chart with dual Y axis</h2>
+                    <p class="text-center font-weight-light">
+                        <font size="5">Choose a country</font>
+                    </p>
                     <select onchange="update()" id="country_code" class="form-control">
                         <option>Select a country</option>
                         <option value='AE'>United Arab Emirates</option>
@@ -66,6 +74,10 @@
                         <option value='TR'>Turkey</option>
                         <option value='US'>USA</option>
                     </select>
+                    <br><br>
+                    <div class="text-center">
+                        <p>Source chart <a href="https://bl.ocks.org/d3noob/e34791a32a54e015f57d">here</a></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -145,11 +157,10 @@
                 y0.domain([0, d3.max(data, function (d) {
                     return Math.max(d.average);
                 })]);
-                y1.domain([0, d3.max(data, function (d) {
-                    return Math.max(d.gini_index);
-                })]);
+                y1.domain([0, 1]);
 
                 svg.append("path")        // Add the valueline path.
+                    .style("stroke", "blue")
                     .attr("d", valueline(data));
 
                 svg.append("path")        // Add the valueline2 path.
@@ -157,12 +168,21 @@
                     .attr("d", valueline2(data));
 
                 svg.selectAll(".dot")
-                    .data(dataset)
+                    .data(data)
                     .enter().append("circle") // Uses the enter().append() method
-                    .attr("class", "dot") // Assign a class for styling
-                    .attr("cx", function (d, i) { return xScale(i) })
-                    .attr("cy", function (d) { return yScale(d.y) })
-                    .attr("r", 5);
+                    .attr("class", "dot1") // Assign a class for styling
+                    .attr("cx", function (d) { return x(d.year) })
+                    .attr("cy",
+                        function (d) { return y1(d.gini_index) })
+                    .attr("r", 3);
+
+                svg.selectAll(".dot")
+                    .data(data)
+                    .enter().append("circle") // Uses the enter().append() method
+                    .attr("class", "dot2") // Assign a class for styling
+                    .attr("cx", function (d) { return x(d.year) })
+                    .attr("cy", function (d) { return y0(d.average) })
+                    .attr("r", 3);
 
                 svg.append("g")            // Add the X Axis
                     .attr("class", "x axis")
@@ -171,7 +191,7 @@
 
                 svg.append("g")
                     .attr("class", "y axis")
-                    .style("fill", "steelblue")
+                    .style("fill", "blue")
                     .call(yAxisLeft);
 
                 svg.append("g")
@@ -179,6 +199,12 @@
                     .attr("transform", "translate(" + width + " ,0)")
                     .style("fill", "red")
                     .call(yAxisRight);
+
+                // Handmade legend
+                svg.append("circle").attr("cx", 230).attr("cy", 460).attr("r", 6).style("fill", "red")
+                svg.append("circle").attr("cx", 230).attr("cy", 490).attr("r", 6).style("fill", "blue")
+                svg.append("text").attr("x", 250).attr("y", 460).text("Gini Income").style("font-size", "15px").attr("alignment-baseline", "middle")
+                svg.append("text").attr("x", 250).attr("y", 490).text("Average Income").style("font-size", "15px").attr("alignment-baseline", "middle")
 
             });
         }
