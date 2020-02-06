@@ -73,11 +73,16 @@
 
 <body>
     <div class="jumbotron d-flex align-items-center">
-        <div class="container">
-            <h2>Bubble chart</h2>
+        <div class="container text-center">
+            <h3>Bubble chart</h3>
+            <div id="cont"></div>
             <button class="btn btn-success" onclick="updateGini()">Gini Index</button>
             <button class="btn btn-info" onclick="updateAvgIncome()">Average Income</button>
-            <div id="container"></div>
+
+            <br><br>
+
+            <p>Source chart <a href="https://bl.ocks.org/alokkshukla/3d6be4be0ef9f6977ec6718b2916d168">here</a></p>
+        
         </div>
     </div>
     <script src="../vendor/d3/d3.js"></script>
@@ -85,10 +90,10 @@
 
         function updateGini(svg) {
             d3.select("svg").remove();
-            var div = d3.select("body").append("div")
+            var div = d3.select("#cont").append("div")
                 .attr("class", "tooltip")
                 .style("opacity", 0);
-            svg = d3.select("body")
+            svg = d3.select("#cont")
                 .append("svg")
                 .attr("width", diameter)
                 .attr("height", diameter)
@@ -172,11 +177,11 @@
         function updateAvgIncome() {
             d3.select("svg").remove();
 
-            var div = d3.select("body").append("div")
+            var div = d3.select("#cont").append("div")
                 .attr("class", "tooltip")
                 .style("opacity", 0);
 
-            var svg = d3.select("body")
+            svg = d3.select("#cont")
                 .append("svg")
                 .attr("width", diameter)
                 .attr("height", diameter)
