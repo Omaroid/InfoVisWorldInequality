@@ -83,7 +83,7 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+    <script src="../vendor/d3/d3.min.js"></script>
     <script>
 
         var margin = { top: 30, right: 40, bottom: 30, left: 80 },
@@ -124,7 +124,6 @@
                 .attr("transform",
                     "translate(" + margin.left + "," + margin.top + ")");
 
-            // Get the data
             d3.csv("../data/all_income_gini.csv", function (error, data) {
 
                 t = [];
@@ -152,25 +151,24 @@
                     d.gini_index = +d.gini_index;
                 });
 
-                // Scale the range of the data
                 x.domain(d3.extent(data, function (d) { return d.year; }));
                 y0.domain([0, d3.max(data, function (d) {
                     return Math.max(d.average);
                 })]);
                 y1.domain([0, 1]);
 
-                svg.append("path")        // Add the valueline path.
+                svg.append("path")
                     .style("stroke", "blue")
                     .attr("d", valueline(data));
 
-                svg.append("path")        // Add the valueline2 path.
+                svg.append("path")
                     .style("stroke", "red")
                     .attr("d", valueline2(data));
 
                 svg.selectAll(".dot")
                     .data(data)
-                    .enter().append("circle") // Uses the enter().append() method
-                    .attr("class", "dot1") // Assign a class for styling
+                    .enter().append("circle")
+                    .attr("class", "dot1")
                     .attr("cx", function (d) { return x(d.year) })
                     .attr("cy",
                         function (d) { return y1(d.gini_index) })
@@ -178,13 +176,13 @@
 
                 svg.selectAll(".dot")
                     .data(data)
-                    .enter().append("circle") // Uses the enter().append() method
-                    .attr("class", "dot2") // Assign a class for styling
+                    .enter().append("circle")
+                    .attr("class", "dot2")
                     .attr("cx", function (d) { return x(d.year) })
                     .attr("cy", function (d) { return y0(d.average) })
                     .attr("r", 3);
 
-                svg.append("g")            // Add the X Axis
+                svg.append("g")
                     .attr("class", "x axis")
                     .attr("transform", "translate(0," + height + ")")
                     .call(xAxis);
@@ -200,7 +198,6 @@
                     .style("fill", "red")
                     .call(yAxisRight);
 
-                // Handmade legend
                 svg.append("circle").attr("cx", 230).attr("cy", 460).attr("r", 6).style("fill", "red")
                 svg.append("circle").attr("cx", 230).attr("cy", 490).attr("r", 6).style("fill", "blue")
                 svg.append("text").attr("x", 250).attr("y", 460).text("Gini Income").style("font-size", "15px").attr("alignment-baseline", "middle")
