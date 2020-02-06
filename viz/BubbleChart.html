@@ -93,7 +93,7 @@
             var div = d3.select("#cont").append("div")
                 .attr("class", "tooltip")
                 .style("opacity", 0);
-                
+
             svg = d3.select("#cont")
                 .append("svg")
                 .attr("width", diameter)
@@ -267,7 +267,7 @@
 
             labelWidth = this.getComputedTextLength();
 
-            // There is enough space for the label so leave it as is.
+            //there is enough space for the label so leave it as is.
             if (labelWidth < labelAvailableWidth) {
                 return null;
             }
