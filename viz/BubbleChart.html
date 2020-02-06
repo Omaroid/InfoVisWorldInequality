@@ -9,22 +9,22 @@
             font-family: sans-serif;
         }
 
-        div.tooltip {	
-            position: absolute;			
-            text-align: center;			
-            width: auto;					
-            height: 28px;					
-            padding: 6px;				
-            font: 12px sans-serif;		
-            background: lightsteelblue;	
-            border: 0px;		
-            border-radius: 8px;			
-            pointer-events: none;			
+        div.tooltip {
+            position: absolute;
+            text-align: center;
+            width: auto;
+            height: 28px;
+            padding: 6px;
+            font: 12px sans-serif;
+            background: lightsteelblue;
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
             z-index: 999999;
         }
 
         .bubble {
-            z-index:1;
+            z-index: 1;
         }
 
         .button {
@@ -66,68 +66,53 @@
             background-color: #008CBA;
             color: white;
         }
-
-
-
-        /*    div.tooltip {    
-    position: absolute;         
-    text-align: center;         
-    width: 60px;                    
-    height: 28px;                   
-    padding: 2px;               
-    font: 12px sans-serif;      
-    background: lightsteelblue; 
-    border: 0px;        
-    border-radius: 8px;         
-    pointer-events: none;           
-} */
     </style>
+    <link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
     <title>Bubble chart</title>
 </head>
 
 <body>
-    <h1>Bubble chart</h1>
-    
-    <button class="button button1" onclick="updateGini()">Gini Index</button>
-    <button class="button button2" onclick="updateAvgIncome()">Average Income</button>
-
-    
-    <div id="my_dataviz"></div>
+    <div class="jumbotron d-flex align-items-center">
+        <div class="container">
+            <h2>Bubble chart</h2>
+            <button class="btn btn-success" onclick="updateGini()">Gini Index</button>
+            <button class="btn btn-info" onclick="updateAvgIncome()">Average Income</button>
+            <div id="container"></div>
+        </div>
+    </div>
     <script src="../vendor/d3/d3.js"></script>
     <script>
-        
 
         function updateGini(svg) {
             d3.select("svg").remove();
-            var div = d3.select("body").append("div")	
-            .attr("class", "tooltip")				
-            .style("opacity", 0);
+            var div = d3.select("body").append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0);
             svg = d3.select("body")
                 .append("svg")
                 .attr("width", diameter)
                 .attr("height", diameter)
                 .attr("class", "bubble")
-                
 
             d3.csv("../data/merged_gini_averageincome.csv", function (error, data) {
                 if (error) throw error;
 
                 //convert numerical values from strings to numbers
                 data = data.map(function (d) { d.value = d["gini_index"]; return d; });
-                //console.log(Math.log10(d["gini_index"]));
 
                 //Sets up a hierarchy of data object
                 var root = d3.hierarchy({ children: data })
                     .sum(function (d) { return d.value; })
                     .sort(function (a, b) { return b.value - a.value; });
+
                 //Once we have hierarchal data, run bubble generator
                 var bubble = d3.pack()
                     .size([diameter, diameter])
-                    .radius(function(d){
+                    .radius(function (d) {
                         tmp = (((d.value - 0.335404423244575) * (50 - 10)) / (0.6621773447253241 - 0.335404423244575)) + 10
-                        return tmp; })
+                        return tmp;
+                    })
                     .padding(1.5);
-
 
                 bubble(root);
 
@@ -135,15 +120,12 @@
                 var bubbles = svg.selectAll(".bubble")
                     .data(root.children)
                     .enter()
-                
-            
-                
 
                 //create the bubbles
                 //var hitsscale = d3.scaleLog()
                 bubbles.append("circle")
                     .attr("class", "circle")
-                    .attr("r", function (d) {return d.r;})
+                    .attr("r", function (d) { return d.r; })
                     .attr("cx", function (d) { return d.x; })
                     .attr("cy", function (d) { return d.y; })
                     .style("fill", function (d) { return color(d.value); })
@@ -152,42 +134,37 @@
                 //format the text for each bubble
                 bubbles.append("text")
                     .attr("x", function (d) { return d.x; })
-                    .attr("y", function (d) { return d.y+5; })
+                    .attr("y", function (d) { return d.y + 5; })
                     .attr("text-anchor", "middle")
                     .text(function (d) { return d.data["code"] })
                     .style("fill", "white")
                     .style("font-family", "Helvetica Neue, Helvetica, Arial, san-serif")
                     .style("font-size", "12px")
-                    .append("svg:title")
-                    //.text(function (d) { return d.data["name"] + " " + d.data["gini_index"]; })
-                    
+                    .append("svg:title");
 
+                function zoomed() { svg.attr("transform", d3.event.transform); }
 
-                 function zoomed() {svg.attr("transform", d3.event.transform);}
-
-                 var zoom = d3.zoom().on("zoom", zoomed);
+                var zoom = d3.zoom().on("zoom", zoomed);
 
                 svg.call(zoom);
 
-                
-
-                d3.select('#zoom-reset-button').on("click", function() {
-                  zoom.transform(svg, d3.zoomIdentity);
-});
+                d3.select('#zoom-reset-button').on("click", function () {
+                    zoom.transform(svg, d3.zoomIdentity);
+                });
 
                 d3.select('svg').selectAll('circle')
-                    .on('mouseover', function(e) {
-                        div.transition()		
-                            .duration(200)		
-                            .style("opacity", .9);		
-                        div	.html(e.data.name + "<br/>"  + "Gini Index: " + Number.parseFloat(e.value).toPrecision(4))	
-                            .style("left", (d3.event.pageX) + "px")		
+                    .on('mouseover', function (e) {
+                        div.transition()
+                            .duration(200)
+                            .style("opacity", .9);
+                        div.html(e.data.name + "<br/>" + "Gini Index: " + Number.parseFloat(e.value).toPrecision(4))
+                            .style("left", (d3.event.pageX) + "px")
                             .style("top", (d3.event.pageY - 28) + "px");
                     })
-                    .on('mouseout', function(e) {
-                        div.transition()		
-                        .duration(300)		
-                        .style("opacity", 0);
+                    .on('mouseout', function (e) {
+                        div.transition()
+                            .duration(300)
+                            .style("opacity", 0);
                     })
             });
         }
@@ -195,9 +172,9 @@
         function updateAvgIncome() {
             d3.select("svg").remove();
 
-            var div = d3.select("body").append("div")	
-            .attr("class", "tooltip")				
-            .style("opacity", 0);
+            var div = d3.select("body").append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0);
 
             var svg = d3.select("body")
                 .append("svg")
@@ -209,31 +186,32 @@
 
                 //convert numerical values from strings to numbers
                 data = data.map(function (d) { d.value = +d["average"]; return d; });
-                //console.log(data);
+
                 //Sets up a hierarchy of data object
                 var root = d3.hierarchy({ children: data })
                     .sum(function (d) { return d.value; })
                     .sort(function (a, b) { return b.value - a.value; });
+
                 //Once we have hierarchal data, run bubble generator
                 var bubble2 = d3.pack()
                     .size([500, 500])
-                    .radius(function(d){
+                    .radius(function (d) {
                         tmp = (((d.value - 5631.91462668) * (80 - 30)) / (184237681.36099997 - 5631.91462668)) + 30
-                        return tmp})
+                        return tmp
+                    })
                     .padding(1);
 
-
                 bubble2(root);
-                
+
                 //setup the chart
                 var bubbles = svg.selectAll(".bubble")
                     .data(root.children)
                     .enter();
-                 
+
                 //create the bubbles
                 bubbles.append("circle")
                     .attr("class", "circle")
-                    .attr("r", function (d) { return d.r;})
+                    .attr("r", function (d) { return d.r; })
                     .attr("cx", function (d) { return d.x; })
                     .attr("cy", function (d) { return d.y; })
                     .style("fill", function (d) { return color(d.value); })
@@ -245,129 +223,63 @@
                     .attr("y", function (d) { return d.y + 0.1 })
                     .attr("text-anchor", "middle")
                     .text(function (d) { return d.data["code"] })
-                    /* .style("font-size", function(d) { return Math.min(2 * d.r, (2 * d.r - 8) / this.getComputedTextLength() * 24) + "px"; })
-                    .attr("dy", ".35em") */
-                    //.style("fill", "white")
-                    //.style("font-family", "Helvetica Neue, Helvetica, Arial, san-serif")
                     .style("font-size", adaptLabelFontSize)
                     .append("svg:title")
 
-                    d3.select('svg').selectAll('circle')
-                    .on('mouseover', function(e) {
-                        //console.log(e)
-                        div.transition()		
-                            .duration(200)		
-                            .style("opacity", .9);		
-                        div.html(e.data.name + "<br/>"  + "Average Income: " + e.value)	
-                            .style("left", (d3.event.pageX) + "px")		
+                d3.select('svg').selectAll('circle')
+                    .on('mouseover', function (e) {
+                        div.transition()
+                            .duration(200)
+                            .style("opacity", .9);
+                        div.html(e.data.name + "<br/>" + "Average Income: " + e.value)
+                            .style("left", (d3.event.pageX) + "px")
                             .style("top", (d3.event.pageY - 28) + "px");
                     })
-                    .on('mouseout', function(e) {
-                        div.transition()		
-                        .duration(300)		
-                        .style("opacity", 0);
+                    .on('mouseout', function (e) {
+                        div.transition()
+                            .duration(300)
+                            .style("opacity", 0);
                     })
 
+                function zoomed() { svg.attr("transform", d3.event.transform); }
 
+                var zoom = d3.zoom().on("zoom", zoomed);
 
+                svg.call(zoom);
 
-                    function zoomed() {svg.attr("transform", d3.event.transform);}
-
-                      var zoom = d3.zoom().on("zoom", zoomed);
-
-                       svg.call(zoom);
-
-
-                      d3.select('#zoom-reset-button').on("click", function() {zoom.transform(svg, d3.zoomIdentity);});
-                    });
-
-                    
+                d3.select('#zoom-reset-button').on("click", function () { zoom.transform(svg, d3.zoomIdentity); });
+            });
         }
-        
+
         function adaptLabelFontSize(d) {
-                var xPadding, diameter, labelAvailableWidth, labelWidth;
+            var xPadding, diameter, labelAvailableWidth, labelWidth;
 
-                      xPadding = 0.2;
-                      diameter =  d.r;
-                      console.log(diameter);
-                      
-                      labelAvailableWidth = diameter - xPadding;
+            xPadding = 0.2;
+            diameter = d.r;
 
-                      labelWidth = this.getComputedTextLength();
+            labelAvailableWidth = diameter - xPadding;
 
-  // There is enough space for the label so leave it as is.
-                     if (labelWidth < labelAvailableWidth) {
-                               return null;
-                                                }
+            labelWidth = this.getComputedTextLength();
 
-  /*
-   * The meaning of the ratio between labelAvailableWidth and labelWidth equaling 1 is that
-   * the label is taking up exactly its available space.
-   * With the result as `1em` the font remains the same.
-   *
-   * The meaning of the ratio between labelAvailableWidth and labelWidth equaling 0.5 is that
-   * the label is taking up twice its available space.
-   * With the result as `0.5em` the font will change to half its original size.
-   */
-                     return (labelAvailableWidth / labelWidth) + 'em';}
+            // There is enough space for the label so leave it as is.
+            if (labelWidth < labelAvailableWidth) {
+                return null;
+            }
+
+            return (labelAvailableWidth / labelWidth) + 'em';
+        }
 
         var diameter = 550, //max size of the bubbles
             format = d3.format(",d"),
             color = d3.scaleOrdinal(d3.schemeCategory10);
-        //more color options: https://github.com/d3/d3-scale-chromatic
-        var svg = d3.select("body")
+
+        var svg = d3.select("#container")
             .append("svg")
             .attr("width", diameter)
             .attr("height", diameter)
             .attr("class", "bubble");
 
         updateGini(svg);
-
-
-        // d3.csv("../data/merged_gini_averageincome.csv", function (error, data) {
-        //     if (error) throw error;
-
-        //     //convert numerical values from strings to numbers
-        //     data = data.map(function (d) { d.value = +d["gini_index"]; return d; });
-
-        //     //Sets up a hierarchy of data object
-        //     var root = d3.hierarchy({ children: data })
-        //         .sum(function (d) { return d.value; })
-        //         .sort(function (a, b) { return b.value - a.value; });
-        //     //Once we have hierarchal data, run bubble generator
-        //     bubble(root);
-
-        //     //setup the chart
-        //     var bubbles = svg.selectAll(".bubble")
-        //         .data(root.children)
-        //         .enter();
-
-        //     //create the bubbles
-        //     bubbles.append("circle")
-        //         .attr("class", "circle")
-        //         .attr("r", function (d) { return d.r; })
-        //         .attr("cx", function (d) { return d.x; })
-        //         .attr("cy", function (d) { return d.y; })
-        //         .style("fill", function (d) { return color(d.value); })
-        //         .append("svg:title")
-        //         .text(function (d) { return d.data["name"] + d.data["gini_index"]; });
-
-        //     //format the text for each bubble
-        //     bubbles.append("text")
-        //         .attr("x", function (d) { return d.x; })
-        //         .attr("y", function (d) { return d.y + 5; })
-        //         .attr("text-anchor", "middle")
-        //         .text(function (d) { return d.data["code"] })
-
-        //         .style("fill", "white")
-        //         .style("font-family", "Helvetica Neue, Helvetica, Arial, san-serif")
-        //         .style("font-size", "12px")
-        //         .append("svg:title")
-        //         .text(function (d) { return d.data["name"] + " " + d.data["gini_index"]; });
-
-        // });
-
-
 
     </script>
 </body>
