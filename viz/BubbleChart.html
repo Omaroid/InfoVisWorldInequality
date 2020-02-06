@@ -88,11 +88,12 @@
     <script src="../vendor/d3/d3.js"></script>
     <script>
 
-        function updateGini(svg) {
+        function updateGini() {
             d3.select("svg").remove();
             var div = d3.select("#cont").append("div")
                 .attr("class", "tooltip")
                 .style("opacity", 0);
+                
             svg = d3.select("#cont")
                 .append("svg")
                 .attr("width", diameter)
@@ -105,12 +106,12 @@
                 //convert numerical values from strings to numbers
                 data = data.map(function (d) { d.value = d["gini_index"]; return d; });
 
-                //Sets up a hierarchy of data object
+                //sets up a hierarchy of data object
                 var root = d3.hierarchy({ children: data })
                     .sum(function (d) { return d.value; })
                     .sort(function (a, b) { return b.value - a.value; });
 
-                //Once we have hierarchal data, run bubble generator
+                //once we have hierarchal data, run bubble generator
                 var bubble = d3.pack()
                     .size([diameter, diameter])
                     .radius(function (d) {
@@ -192,12 +193,12 @@
                 //convert numerical values from strings to numbers
                 data = data.map(function (d) { d.value = +d["average"]; return d; });
 
-                //Sets up a hierarchy of data object
+                //sets up a hierarchy of data object
                 var root = d3.hierarchy({ children: data })
                     .sum(function (d) { return d.value; })
                     .sort(function (a, b) { return b.value - a.value; });
 
-                //Once we have hierarchal data, run bubble generator
+                //once we have hierarchal data, run bubble generator
                 var bubble2 = d3.pack()
                     .size([500, 500])
                     .radius(function (d) {
@@ -284,7 +285,7 @@
             .attr("height", diameter)
             .attr("class", "bubble");
 
-        updateGini(svg);
+        updateGini();
 
     </script>
 </body>
