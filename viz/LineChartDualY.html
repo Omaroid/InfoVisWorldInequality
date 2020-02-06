@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+<style>
+    body {
+        font: 12px Arial;
+    }
+
+    path {
+        stroke: steelblue;
+        stroke-width: 2;
+        fill: none;
+    }
+
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: grey;
+        stroke-width: 1;
+        shape-rendering: crispEdges;
+    }
+</style>
+
+<body>
+    <div class="jumbotron d-flex align-items-center">
+        <div class="container">
+            <div class="row">
+                <div id="chart" class="col-8">
+                    <svg width="625" height="625" font-family="sans-serif" font-size="10"></svg>
+                </div>
+                <div class="col-4">
+                    <h3>Line Chart with dual Y axis</h3>
+                    <select onchange="update()" id="country_code" class="form-control">
+                        <option>Select a country</option>
+                        <option value='AE'>United Arab Emirates</option>
+                        <option value='BH'>Bahrain</option>
+                        <option value='BR'>Brazil</option>
+                        <option value='CI'>Cote d'Ivoire</option>
+                        <option value='CN'>China</option>
+                        <option value='CZ'>Czech Republic</option>
+                        <option value='DE'>Germany</option>
+                        <option value='EG'>Egypt</option>
+                        <option value='FR'>France</option>
+                        <option value='IN'>India</option>
+                        <option value='IQ'>Iraq</option>
+                        <option value='IR'>Iran</option>
+                        <option value='JO'>Jordan</option>
+                        <option value='KR'>Korea</option>
+                        <option value='KW'>Kuwait</option>
+                        <option value='LB'>Lebanon</option>
+                        <option value='MY'>Malaysia</option>
+                        <option value='OM'>Oman</option>
+                        <option value='PL'>Poland</option>
+                        <option value='PS'>Palestine</option>
+                        <option value='QA'>Qatar</option>
+                        <option value='RU'>Russian Federation</option>
+                        <option value='SA'>Saudi Arabia</option>
+                        <option value='SY'>Syrian Arab Republic</option>
+                        <option value='TH'>Thailand</option>
+                        <option value='TR'>Turkey</option>
+                        <option value='US'>USA</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+    <script>
+
+        var margin = { top: 30, right: 40, bottom: 30, left: 80 },
+            width = 700 - margin.left - margin.right,
+            height = 600 - margin.top - margin.bottom;
+
+        var x = d3.time.scale().range([0, width]);
+        var y0 = d3.scale.linear().range([height, 0]);
+        var y1 = d3.scale.linear().range([height, 0]);
+
+        var xAxis = d3.svg.axis().scale(x)
+            .orient("bottom").ticks(5);
+
+        var yAxisLeft = d3.svg.axis().scale(y0)
+            .orient("left").ticks(5);
+
+        var yAxisRight = d3.svg.axis().scale(y1)
+            .orient("right").ticks(5);
+
+        var parseDate = d3.time.format("%Y").parse;
+
+        var valueline = d3.svg.line()
+            .x(function (d) { return x(d.year); })
+            .y(function (d) { return y0(d.average); });
+
+        var valueline2 = d3.svg.line()
+            .x(function (d) { return x(d.year); })
+            .y(function (d) { return y1(d.gini_index); });
+
+        function update() {
+
+            d3.select("svg").selectAll("*").remove();
+
+            var svg = d3.select("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");
+
+            // Get the data
+            d3.csv("../data/all_income_gini.csv", function (error, data) {
+
+                t = [];
+                index = 0;
+
+                var e = document.getElementById("country_code");
+                var country = e.options[e.selectedIndex].value;
+
+                for (i = 0; i < data.length; i++) {
+                    if (data[i].country == country) {
+                        t.push({
+                            'year': data[i].year,
+                            'gini_index': data[i].gini_index,
+                            'average': data[i].average
+                        });
+                    }
+                }
+                t['columns'] = ['year', 'gini_index', 'average']
+
+                data = t;
+
+                data.forEach(function (d) {
+                    d.year = d.date = parseDate(d.year);
+                    d.average = +d.average;
+                    d.gini_index = +d.gini_index;
+                });
+
+                // Scale the range of the data
+                x.domain(d3.extent(data, function (d) { return d.year; }));
+                y0.domain([0, d3.max(data, function (d) {
+                    return Math.max(d.average);
+                })]);
+                y1.domain([0, d3.max(data, function (d) {
+                    return Math.max(d.gini_index);
+                })]);
+
+                svg.append("path")        // Add the valueline path.
+                    .attr("d", valueline(data));
+
+                svg.append("path")        // Add the valueline2 path.
+                    .style("stroke", "red")
+                    .attr("d", valueline2(data));
+
+                svg.append("g")            // Add the X Axis
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(xAxis);
+
+                svg.append("g")
+                    .attr("class", "y axis")
+                    .style("fill", "steelblue")
+                    .call(yAxisLeft);
+
+                svg.append("g")
+                    .attr("class", "y axis")
+                    .attr("transform", "translate(" + width + " ,0)")
+                    .style("fill", "red")
+                    .call(yAxisRight);
+
+            });
+        }
+
+    </script>
+</body>
