@@ -1,25 +1,79 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
 <style>
-    .row {
-        display: flex;
+    .slidecontainer {
+        width: 100%;
     }
 
-    .column {
-        flex: 50%;
+    .slider {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 15px;
+        border-radius: 5px;
+        background: #d3d3d3;
+        outline: none;
+        opacity: 0.7;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+    }
+
+    .slider:hover {
+        opacity: 1;
+    }
+
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: #4CAF50;
+        cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: #4CAF50;
+        cursor: pointer;
     }
 </style>
-<div class="row">
-    <div id="chart" class="column">
-        <svg width="700" height="700" font-family="sans-serif" font-size="10"></svg>
-    </div>
-    <div class="column">
-        <input type="range" id="year" name="year" min="1905" max="2016" onchange="getValue()">
-        <label for="year">Year</label>
-        <p id="p1"></p>
-        <button onclick="play()">Play</button>
-        <button onclick="pause()">Pause</button>
-        <button onclick="reset()">Reset</button>
+<div class="jumbotron d-flex align-items-center">
+    <div class="container">
+        <div class="row">
+            <div id="chart" class="col">
+                <svg width="625" height="625" font-family="sans-serif" font-size="10"></svg>
+            </div>
+            <div class="col">
+                <div class="jumbotron d-flex align-items-center">
+                    <div class="container">
+                        
+                        <h2 class="text-center">Radial Stacked Bar Chart</h2>
+
+                        <p class="text-center font-weight-light">
+                            <font size="20"><b>Year </b><font size="20" id="p1"></font></font>
+                        </p>
+                        <div class="text-center">
+                            <input type="range" class="slider" id="year" name="year" min="1905" max="2016"
+                                onchange="getValue()">
+                        </div>
+                        <br><br>
+                        <div class="text-center">
+                            <button class="btn btn-primary btn-lg" id="idplay" onclick="play()">Play</button>
+                            <button class="btn btn-warning btn-lg" id="idpause" onclick="pause()">Pause</button>
+                            <button class="btn btn-danger btn-lg" onclick="reset()">Reset</button>
+
+                            <br><br>
+
+                            <p>Source chart <a href="https://observablehq.com/@d3/radial-stacked-bar-chart">here</a></p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <script src="../vendor/d3/d3.js"></script>
@@ -27,17 +81,23 @@
 <script>
 
     function action() {
-        update(parseInt(document.getElementById("year").value));
+        if(document.getElementById("year").value == 2016){
+            pause();
+        }
         document.getElementById("year").value = parseInt(document.getElementById("year").value) + 1;
         document.getElementById("p1").innerHTML = document.getElementById("year").value;
+        update(parseInt(document.getElementById("year").value));
     }
 
     function play() {
-        window.setInterval(action(), 1000);
+        clearInterval(window.interval);
+        window.interval = setInterval(function () {
+            action();
+        }, 500);
     }
 
     function pause() {
-        clearInterval();
+        clearInterval(window.interval);
     }
 
     function reset() {
