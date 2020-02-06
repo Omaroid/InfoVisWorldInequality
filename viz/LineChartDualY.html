@@ -127,7 +127,6 @@
             d3.csv("../data/all_income_gini.csv", function (error, data) {
 
                 t = [];
-                index = 0;
 
                 var e = document.getElementById("country_code");
                 var country = e.options[e.selectedIndex].value;
@@ -146,7 +145,7 @@
                 data = t;
 
                 data.forEach(function (d) {
-                    d.year = d.date = parseDate(d.year);
+                    d.year = parseDate(d.year);
                     d.average = +d.average;
                     d.gini_index = +d.gini_index;
                 });

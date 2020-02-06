@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+    /* set the CSS */
+    body {
+        font: 12px Arial;
+    }
+
+    path {
+        stroke: steelblue;
+        stroke-width: 2;
+        fill: none;
+    }
+
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: grey;
+        stroke-width: 1;
+        shape-rendering: crispEdges;
+    }
+
+    .legend {
+        font-size: 16px;
+        font-weight: bold;
+        text-anchor: start;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+
+<body>
+    <div class="jumbotron d-flex align-items-center">
+        <div class="container text-center">
+            <h1>GDP growth and Gini coefficient</h1><br>
+            <p> Dashed = Gini Index</p>
+            <p> Strong = Growth Index</p>
+        </div>
+        <div class="container">
+            <svg width="700" height="900" font-family="sans-serif" font-size="10"></svg>
+        </div>
+    </div>
+
+    <!-- load the d3.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+    <script>
+
+        var margin = { top: 30, right: 40, bottom: 200, left: 80 },
+            width = 700 - margin.left - margin.right,
+            height = 700 - margin.top - margin.bottom;
+
+        var x = d3.time.scale().range([0, width]);
+        var y0 = d3.scale.linear().range([height, 0]);
+        var y1 = d3.scale.linear().range([height, 0]);
+
+        var xAxis = d3.svg.axis().scale(x)
+            .orient("bottom").ticks(5);
+
+        var yAxisLeft = d3.svg.axis().scale(y0)
+            .orient("left").ticks(5);
+
+        var yAxisRight = d3.svg.axis().scale(y1)
+            .orient("right").ticks(5);
+
+        var parseDate = d3.time.format("%Y").parse;
+
+        var valueline_b_growth = d3.svg.line()
+            .x(function (d) { return x(d.year); })
+            .y(function (d) { return y0(d.growth); });
+
+        var valueline_b_gini = d3.svg.line()
+            .x(function (d) { return x(d.year); })
+            .y(function (d) { return y1(d.gini_index); });
+
+        var valueline_r_growth = d3.svg.line()
+            .x(function (d) { return x(d.year); })
+            .y(function (d) { return y0(d.growth); });
+
+        var valueline_r_gini = d3.svg.line()
+            .x(function (d) { return x(d.year); })
+            .y(function (d) { return y1(d.gini_index); });
+
+        var valueline_i_growth = d3.svg.line()
+            .x(function (d) { return x(d.year); })
+            .y(function (d) { return y0(d.growth); });
+
+        var valueline_i_gini = d3.svg.line()
+            .x(function (d) { return x(d.year); })
+            .y(function (d) { return y1(d.gini_index); });
+
+        var valueline_c_growth = d3.svg.line()
+            .x(function (d) { return x(d.year); })
+            .y(function (d) { return y0(d.growth); });
+
+        var valueline_c_gini = d3.svg.line()
+            .x(function (d) { return x(d.year); })
+            .y(function (d) { return y1(d.gini_index); });
+
+        function update() {
+
+            d3.select("svg").selectAll("*").remove();
+
+            var svg = d3.select("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");
+
+            d3.csv("../data/BRICS_growth_gini.csv", function (error, data) {
+
+                t_bresil = [];
+                t_russia = [];
+                t_india = [];
+                t_china = [];
+
+                data.forEach(function (d) {
+                    d.year = parseDate(d.year);
+                    d.growth = +d.growth;
+                    d.gini_index = +d.gini_index;
+                });
+
+                for (i = 0; i < data.length; i++) {
+                    switch (data[i].country) {
+                        case "BR":
+                            t_bresil.push({
+                                'year': data[i].year,
+                                'gini_index': data[i].gini_index,
+                                'growth': data[i].growth
+                            });
+                            break;
+                        case "CN":
+                            t_china.push({
+                                'year': data[i].year,
+                                'gini_index': data[i].gini_index,
+                                'growth': data[i].growth
+                            });
+                            break;
+                        case "IN":
+                            t_india.push({
+                                'year': data[i].year,
+                                'gini_index': data[i].gini_index,
+                                'growth': data[i].growth
+                            });
+                            break;
+                        default: //RU
+                            t_russia.push({
+                                'year': data[i].year,
+                                'gini_index': data[i].gini_index,
+                                'growth': data[i].growth
+                            });
+                            break;
+                    }
+                }
+                t_india['columns'] = t_russia['columns'] = t_china['columns'] = t_bresil['columns'] = ['year', 'growth', 'gini_index']
+
+                x.domain(d3.extent(data, function (d) { return d.year; }));
+                y0.domain([-10, d3.max(data, function (d) {
+                    return Math.max(d.growth);
+                })]);
+                y1.domain([0, 1]);
+
+                svg.append("path")
+                    .style("stroke", "#FA8072")
+                    .style("stroke-dasharray", "5,5")
+                    .attr("id", "russia_gini")
+                    .attr("d", valueline_r_gini(t_russia));
+
+                svg.append("path")
+                    .style("stroke", "#FA8072")
+                    .attr("id", "russia_growth")
+                    .attr("d", valueline_r_growth(t_russia));
+
+                svg.append("path")
+                    .style("stroke", "156110")
+                    .style("stroke-dasharray", "5,5")
+                    .attr("id", "bresil_gini")
+                    .attr("d", valueline_b_gini(t_bresil));
+
+                svg.append("path")
+                    .style("stroke", "156110")
+                    .attr("id", "bresil_growth")
+                    .attr("d", valueline_b_growth(t_bresil));
+
+                svg.append("path")
+                    .style("stroke", "C3B712")
+                    .style("stroke-dasharray", "5,5")
+                    .attr("id", "india_gini")
+                    .attr("d", valueline_i_gini(t_india));
+
+                svg.append("path")
+                    .style("stroke", "C3B712")
+                    .attr("id", "india_growth")
+                    .attr("d", valueline_i_growth(t_india));
+
+                svg.append("path")
+                    .style("stroke", "1DA0E8")
+                    .style("stroke-dasharray", "5,5")
+                    .attr("id", "china_gini")
+                    .attr("d", valueline_c_gini(t_china));
+
+                svg.append("path")
+                    .style("stroke", "1DA0E8")
+                    .attr("id", "china_growth")
+                    .attr("d", valueline_c_growth(t_china));
+
+                svg.append("g")
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(xAxis);
+
+                svg.append("g")
+                    .attr("class", "y axis")
+                    .style("fill", "blue")
+                    .call(yAxisLeft);
+
+                svg.append("g")
+                    .attr("class", "y axis")
+                    .attr("transform", "translate(" + width + " ,0)")
+                    .style("fill", "red")
+                    .call(yAxisRight);
+
+                svg.append("text")
+                    .attr("x", 0)
+                    .attr("y", height + margin.top + 10)
+                    .attr("class", "legend")
+                    .style("fill", "1DA0E8")
+                    .on("click", function () {
+                        // Determine if current line is visible
+                        var active = china_growth.active ? false : true,
+                            newOpacity = active ? 0 : 1;
+                        // Hide or show the elements
+                        d3.select("#china_growth").style("opacity", newOpacity);
+                        d3.select("#china_gini").style("opacity", newOpacity);
+                        // Update whether or not the elements are active
+                        china_growth.active = active;
+                    })
+                    .text("China");
+
+                svg.append("text")
+                    .attr("x", 0)
+                    .attr("y", height + margin.top + 30)
+                    .attr("class", "legend")
+                    .style("fill", "156110")
+                    .on("click", function () {
+                        // Determine if current line is visible
+                        var active = bresil_growth.active ? false : true,
+                            newOpacity = active ? 0 : 1;
+                        // Hide or show the elements
+                        d3.select("#bresil_growth").style("opacity", newOpacity);
+                        d3.select("#bresil_gini").style("opacity", newOpacity);
+                        // Update whether or not the elements are active
+                        bresil_growth.active = active;
+                    })
+                    .text("Brazil");
+
+                svg.append("text")
+                    .attr("x", 0)
+                    .attr("y", height + margin.top + 50)
+                    .attr("class", "legend")
+                    .style("fill", "C3B712")
+                    .on("click", function () {
+                        // Determine if current line is visible
+                        var active = india_growth.active ? false : true,
+                            newOpacity = active ? 0 : 1;
+                        // Hide or show the elements
+                        d3.select("#india_growth").style("opacity", newOpacity);
+                        d3.select("#india_gini").style("opacity", newOpacity);
+                        // Update whether or not the elements are active
+                        india_growth.active = active;
+                    })
+                    .text("India");
+
+                svg.append("text")
+                    .attr("x", 0)
+                    .attr("y", height + margin.top + 70)
+                    .attr("class", "legend")
+                    .style("fill", "FA8072")
+                    .on("click", function () {
+                        // Determine if current line is visible
+                        var active = russia_growth.active ? false : true,
+                            newOpacity = active ? 0 : 1;
+                        // Hide or show the elements
+                        d3.select("#russia_growth").style("opacity", newOpacity);
+                        d3.select("#russia_gini").style("opacity", newOpacity);
+                        // Update whether or not the elements are active
+                        russia_growth.active = active;
+                    })
+                    .text("Russia");
+            });
+        }
+
+        update();
+
+    </script>
+</body>
