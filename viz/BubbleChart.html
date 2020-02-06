@@ -9,8 +9,23 @@
             font-family: sans-serif;
         }
 
+        div.tooltip {	
+            position: absolute;			
+            text-align: center;			
+            width: auto;					
+            height: 28px;					
+            padding: 6px;				
+            font: 12px sans-serif;		
+            background: lightsteelblue;	
+            border: 0px;		
+            border-radius: 8px;			
+            pointer-events: none;			
+            z-index: 999999;
+        }
 
-
+        .bubble {
+            z-index:1;
+        }
 
         .button {
             background-color: #4CAF50;
@@ -27,6 +42,7 @@
             /* Safari */
             transition-duration: 0.4s;
             cursor: pointer;
+            z-index: 9999;
         }
 
         .button1 {
@@ -77,15 +93,19 @@
 
     <script src="../vendor/d3/d3.js"></script>
     <script>
+        
 
-        function updateGini() {
+        function updateGini(svg) {
             d3.select("svg").remove();
-
-            var svg = d3.select("body")
+            var div = d3.select("body").append("div")	
+            .attr("class", "tooltip")				
+            .style("opacity", 0);
+            svg = d3.select("body")
                 .append("svg")
                 .attr("width", diameter)
                 .attr("height", diameter)
-                .attr("class", "bubble");
+                .attr("class", "bubble")
+                
 
             d3.csv("../data/merged_gini_averageincome.csv", function (error, data) {
                 if (error) throw error;
@@ -98,22 +118,28 @@
                     .sum(function (d) { return d.value; })
                     .sort(function (a, b) { return b.value - a.value; });
                 //Once we have hierarchal data, run bubble generator
+                var bubble = d3.pack()
+                    .size([diameter, diameter])
+                    .padding(1.5);
+
+
                 bubble(root);
 
                 //setup the chart
                 var bubbles = svg.selectAll(".bubble")
                     .data(root.children)
-                    .enter();
+                    .enter()
+                    
+                
 
                 //create the bubbles
                 bubbles.append("circle")
                     .attr("class", "circle")
-                    .attr("r", function (d) { return d.r; })
+                    .attr("r", function (d) {return d.r;})
                     .attr("cx", function (d) { return d.x; })
                     .attr("cy", function (d) { return d.y; })
                     .style("fill", function (d) { return color(d.value); })
                     .append("svg:title")
-                    .text(function (d) { return d.data["name"] + d.data["gini_index"]; });
 
                 //format the text for each bubble
                 bubbles.append("text")
@@ -121,12 +147,12 @@
                     .attr("y", function (d) { return d.y + 5; })
                     .attr("text-anchor", "middle")
                     .text(function (d) { return d.data["code"] })
-
                     .style("fill", "white")
                     .style("font-family", "Helvetica Neue, Helvetica, Arial, san-serif")
                     .style("font-size", "12px")
                     .append("svg:title")
-                    .text(function (d) { return d.data["name"] + " " + d.data["gini_index"]; });
+                    //.text(function (d) { return d.data["name"] + " " + d.data["gini_index"]; })
+                    
 
 
                  function zoomed() {svg.attr("transform", d3.event.transform);}
@@ -135,36 +161,62 @@
 
                 svg.call(zoom);
 
+                
 
                 d3.select('#zoom-reset-button').on("click", function() {
                   zoom.transform(svg, d3.zoomIdentity);
 });
 
+                d3.select('svg').selectAll('circle')
+                    .on('mouseover', function(e) {
+                        div.transition()		
+                            .duration(200)		
+                            .style("opacity", .9);		
+                        div	.html(e.data.name + "<br/>"  + "Gini Index: " + Number.parseFloat(e.value).toPrecision(4))	
+                            .style("left", (d3.event.pageX) + "px")		
+                            .style("top", (d3.event.pageY - 28) + "px");
+                    })
+                    .on('mouseout', function(e) {
+                        div.transition()		
+                        .duration(300)		
+                        .style("opacity", 0);
+                    })
             });
         }
 
         function updateAvgIncome() {
             d3.select("svg").remove();
 
+            var div = d3.select("body").append("div")	
+            .attr("class", "tooltip")				
+            .style("opacity", 0);
+
             var svg = d3.select("body")
                 .append("svg")
                 .attr("width", diameter)
                 .attr("height", diameter)
                 .attr("class", "bubble");
-
             d3.csv("../data/merged_gini_averageincome.csv", function (error, data) {
                 if (error) throw error;
 
                 //convert numerical values from strings to numbers
                 data = data.map(function (d) { d.value = +d["average"]; return d; });
-
+                console.log(data);
                 //Sets up a hierarchy of data object
                 var root = d3.hierarchy({ children: data })
                     .sum(function (d) { return d.value; })
                     .sort(function (a, b) { return b.value - a.value; });
                 //Once we have hierarchal data, run bubble generator
-                bubble(root);
+                var bubble2 = d3.pack()
+                    .size([500, 500])
+                    .radius(function(d){
+                        tmp = (((d.value - 5631.91462668) * (80 - 30)) / (184237681.36099997 - 5631.91462668)) + 30
+                        return tmp})
+                    .padding(1);
 
+
+                bubble2(root);
+                
                 //setup the chart
                 var bubbles = svg.selectAll(".bubble")
                     .data(root.children)
@@ -173,12 +225,11 @@
                 //create the bubbles
                 bubbles.append("circle")
                     .attr("class", "circle")
-                    .attr("r", function (d) { return d.r; })
+                    .attr("r", function (d) { return d.r;})
                     .attr("cx", function (d) { return d.x; })
                     .attr("cy", function (d) { return d.y; })
                     .style("fill", function (d) { return color(d.value); })
                     .append("svg:title")
-                    .text(function (d) { return d.data["name"] + " " +d.data["average"]; });
 
                 //format the text for each bubble
                 bubbles.append("text")
@@ -186,15 +237,28 @@
                     .attr("y", function (d) { return d.y + 0.1 })
                     .attr("text-anchor", "middle")
                     .text(function (d) { return d.data["code"] })
-                    
                     /* .style("font-size", function(d) { return Math.min(2 * d.r, (2 * d.r - 8) / this.getComputedTextLength() * 24) + "px"; })
                     .attr("dy", ".35em") */
                     //.style("fill", "white")
                     //.style("font-family", "Helvetica Neue, Helvetica, Arial, san-serif")
                     .style("font-size", adaptLabelFontSize)
                     .append("svg:title")
-                    .text(function (d) { return d.data["name"] + " " + d.data["average"]; });
 
+                    d3.select('svg').selectAll('circle')
+                    .on('mouseover', function(e) {
+                        console.log(e)
+                        div.transition()		
+                            .duration(200)		
+                            .style("opacity", .9);		
+                        div.html(e.data.name + "<br/>"  + "Average Income: " + e.value)	
+                            .style("left", (d3.event.pageX) + "px")		
+                            .style("top", (d3.event.pageY - 28) + "px");
+                    })
+                    .on('mouseout', function(e) {
+                        div.transition()		
+                        .duration(300)		
+                        .style("opacity", 0);
+                    })
 
 
 
@@ -208,6 +272,8 @@
 
                       d3.select('#zoom-reset-button').on("click", function() {zoom.transform(svg, d3.zoomIdentity);});
                     });
+
+                    
         }
         
         function adaptLabelFontSize(d) {
@@ -239,60 +305,57 @@
             format = d3.format(",d"),
             color = d3.scaleOrdinal(d3.schemeCategory10);
         //more color options: https://github.com/d3/d3-scale-chromatic
-
-        var bubble = d3.pack()
-            .size([diameter, diameter])
-            .padding(1.5);
-
         var svg = d3.select("body")
             .append("svg")
             .attr("width", diameter)
             .attr("height", diameter)
             .attr("class", "bubble");
 
+        updateGini(svg);
 
-        d3.csv("../data/merged_gini_averageincome.csv", function (error, data) {
-            if (error) throw error;
 
-            //convert numerical values from strings to numbers
-            data = data.map(function (d) { d.value = +d["gini_index"]; return d; });
+        // d3.csv("../data/merged_gini_averageincome.csv", function (error, data) {
+        //     if (error) throw error;
 
-            //Sets up a hierarchy of data object
-            var root = d3.hierarchy({ children: data })
-                .sum(function (d) { return d.value; })
-                .sort(function (a, b) { return b.value - a.value; });
-            //Once we have hierarchal data, run bubble generator
-            bubble(root);
+        //     //convert numerical values from strings to numbers
+        //     data = data.map(function (d) { d.value = +d["gini_index"]; return d; });
 
-            //setup the chart
-            var bubbles = svg.selectAll(".bubble")
-                .data(root.children)
-                .enter();
+        //     //Sets up a hierarchy of data object
+        //     var root = d3.hierarchy({ children: data })
+        //         .sum(function (d) { return d.value; })
+        //         .sort(function (a, b) { return b.value - a.value; });
+        //     //Once we have hierarchal data, run bubble generator
+        //     bubble(root);
 
-            //create the bubbles
-            bubbles.append("circle")
-                .attr("class", "circle")
-                .attr("r", function (d) { return d.r; })
-                .attr("cx", function (d) { return d.x; })
-                .attr("cy", function (d) { return d.y; })
-                .style("fill", function (d) { return color(d.value); })
-                .append("svg:title")
-                .text(function (d) { return d.data["name"] + d.data["gini_index"]; });
+        //     //setup the chart
+        //     var bubbles = svg.selectAll(".bubble")
+        //         .data(root.children)
+        //         .enter();
 
-            //format the text for each bubble
-            bubbles.append("text")
-                .attr("x", function (d) { return d.x; })
-                .attr("y", function (d) { return d.y + 5; })
-                .attr("text-anchor", "middle")
-                .text(function (d) { return d.data["code"] })
+        //     //create the bubbles
+        //     bubbles.append("circle")
+        //         .attr("class", "circle")
+        //         .attr("r", function (d) { return d.r; })
+        //         .attr("cx", function (d) { return d.x; })
+        //         .attr("cy", function (d) { return d.y; })
+        //         .style("fill", function (d) { return color(d.value); })
+        //         .append("svg:title")
+        //         .text(function (d) { return d.data["name"] + d.data["gini_index"]; });
 
-                .style("fill", "white")
-                .style("font-family", "Helvetica Neue, Helvetica, Arial, san-serif")
-                .style("font-size", "12px")
-                .append("svg:title")
-                .text(function (d) { return d.data["name"] + " " + d.data["gini_index"]; });
+        //     //format the text for each bubble
+        //     bubbles.append("text")
+        //         .attr("x", function (d) { return d.x; })
+        //         .attr("y", function (d) { return d.y + 5; })
+        //         .attr("text-anchor", "middle")
+        //         .text(function (d) { return d.data["code"] })
 
-        });
+        //         .style("fill", "white")
+        //         .style("font-family", "Helvetica Neue, Helvetica, Arial, san-serif")
+        //         .style("font-size", "12px")
+        //         .append("svg:title")
+        //         .text(function (d) { return d.data["name"] + " " + d.data["gini_index"]; });
+
+        // });
 
 
 
