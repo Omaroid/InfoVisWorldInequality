@@ -87,10 +87,12 @@
 
 <body>
     <h1>Bubble chart</h1>
-    <div id="my_dataviz"></div>
+    
     <button class="button button1" onclick="updateGini()">Gini Index</button>
     <button class="button button2" onclick="updateAvgIncome()">Average Income</button>
 
+    
+    <div id="my_dataviz"></div>
     <script src="../vendor/d3/d3.js"></script>
     <script>
         
@@ -111,7 +113,8 @@
                 if (error) throw error;
 
                 //convert numerical values from strings to numbers
-                data = data.map(function (d) { d.value = +d["gini_index"]; return d; });
+                data = data.map(function (d) { d.value = d["gini_index"]; return d; });
+                //console.log(Math.log10(d["gini_index"]));
 
                 //Sets up a hierarchy of data object
                 var root = d3.hierarchy({ children: data })
@@ -120,6 +123,9 @@
                 //Once we have hierarchal data, run bubble generator
                 var bubble = d3.pack()
                     .size([diameter, diameter])
+                    .radius(function(d){
+                        tmp = (((d.value - 0.335404423244575) * (50 - 10)) / (0.6621773447253241 - 0.335404423244575)) + 10
+                        return tmp; })
                     .padding(1.5);
 
 
@@ -129,10 +135,12 @@
                 var bubbles = svg.selectAll(".bubble")
                     .data(root.children)
                     .enter()
-                    
+                
+            
                 
 
                 //create the bubbles
+                //var hitsscale = d3.scaleLog()
                 bubbles.append("circle")
                     .attr("class", "circle")
                     .attr("r", function (d) {return d.r;})
@@ -144,7 +152,7 @@
                 //format the text for each bubble
                 bubbles.append("text")
                     .attr("x", function (d) { return d.x; })
-                    .attr("y", function (d) { return d.y + 5; })
+                    .attr("y", function (d) { return d.y+5; })
                     .attr("text-anchor", "middle")
                     .text(function (d) { return d.data["code"] })
                     .style("fill", "white")
@@ -201,7 +209,7 @@
 
                 //convert numerical values from strings to numbers
                 data = data.map(function (d) { d.value = +d["average"]; return d; });
-                console.log(data);
+                //console.log(data);
                 //Sets up a hierarchy of data object
                 var root = d3.hierarchy({ children: data })
                     .sum(function (d) { return d.value; })
@@ -246,7 +254,7 @@
 
                     d3.select('svg').selectAll('circle')
                     .on('mouseover', function(e) {
-                        console.log(e)
+                        //console.log(e)
                         div.transition()		
                             .duration(200)		
                             .style("opacity", .9);		
@@ -281,6 +289,8 @@
 
                       xPadding = 0.2;
                       diameter =  d.r;
+                      console.log(diameter);
+                      
                       labelAvailableWidth = diameter - xPadding;
 
                       labelWidth = this.getComputedTextLength();
@@ -301,7 +311,7 @@
    */
                      return (labelAvailableWidth / labelWidth) + 'em';}
 
-        var diameter = 500, //max size of the bubbles
+        var diameter = 550, //max size of the bubbles
             format = d3.format(",d"),
             color = d3.scaleOrdinal(d3.schemeCategory10);
         //more color options: https://github.com/d3/d3-scale-chromatic
