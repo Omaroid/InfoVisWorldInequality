@@ -34,7 +34,7 @@ Extracts of the [World Inequality Database](https://wid.world/).
 
 ![Gif of Radial Stacked Bar](./RadialStackedBar.gif)
 
- * **Radial Stacked Bar Chart**
+ * **Bubble Chart**
  
 ![Gif of Bubble Chart Bar](./BubbleChartAvgIncomeGini.gif)
 
