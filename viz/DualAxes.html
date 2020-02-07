@@ -34,6 +34,10 @@
             <h1>GDP growth and Gini coefficient</h1><br>
             <p> Dashed = Gini Index</p>
             <p> Strong = Growth Index</p>
+            <br><br>
+            <div class="text-center">
+                <p>Source chart <a href="https://bl.ocks.org/d3noob/e34791a32a54e015f57d">here</a></p>
+            </div>
         </div>
         <div class="container">
             <svg width="700" height="900" font-family="sans-serif" font-size="10"></svg>
@@ -286,6 +290,22 @@
                         russia_growth.active = active;
                     })
                     .text("Russia");
+
+                // text label for the y axis
+                svg.append("text")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 50 - margin.left)
+                    .attr("x", 0 - (height / 2))
+                    .attr("dy", "1em")
+                    .style("text-anchor", "middle")
+                    .text("Growth Index");
+                svg.append("text")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 680 - margin.left)
+                    .attr("x", 0 - (height / 2))
+                    .attr("dy", "1em")
+                    .style("text-anchor", "middle")
+                    .text("Gini Index");
             });
         }
 
