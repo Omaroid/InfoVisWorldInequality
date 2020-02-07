@@ -27,3 +27,5 @@ The attributes present in the tables are:
 * **histogram.html** a basic histogram showing how to select a specific year, and how to use **low**, **high**, **width** and **share**
 * **cdf.html** a cumulative distribution function plot showing a use for **cumul**
 * **time.html** a time series visualization
+
+![Gif of Radial Stacked Bar](./RadialStackedBar.gif)
