@@ -60,7 +60,7 @@ The attributes present in the tables are:
 
 ## Slides
 
-The slides for the presentation are available [here](http://bit.ly/SlidesInfoVis)
+The slides for the presentation are available [here](https://github.com/Omaroid/InfoVisWorldInequality/blob/master/Info%20Visulization%20Presentation.pptx) and in Google slides [here](http://bit.ly/SlidesInfoVis)
 
 ## Project report
 
