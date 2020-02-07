@@ -4,11 +4,45 @@ Extracts of the [World Inequality Database](https://wid.world/).
 
 ## Content
 
-* **data/** the data in [tsv](https://bl.ocks.org/mbostock/3305937).
-	* **countries.tsv** country codes
-	* **income/** income share per country
-* **viz/** sample visualisations
-* **vendor/** vendorized d3 library
+* **data/** The data folder
+	* **countries.tsv** country codes (Provided)
+	* **income/** income share per country (Provided)
+
+	* **gdp_growth.tsv** Growth of BRICS Countries
+	* **gini.tsv** Gini of BRICS Countries
+	* **BRICS_growth_gini.csv** Merged gdp_growth and gini files
+
+	* **income_averages.tsv** Income Average of some countries
+	* **income_gini.tsv** Gini Index of some countries
+	* **all_income_gini.csv** Merged income_averages and income_gini.tsv
+
+	* **continents.csv** Countries by country code, name and continent name
+	
+	* **merged_gini_averageincome.csv** Merged file for last data available for each country interms of Average Income and Gini Index
+	* **merged_income_quantiles.csv** Merged file for all quantiles data by adding country name and continent name
+	* **merged_quantiles.csv** Merged file for all countries with discretized quantiles
+
+	* **prep.py prep1.py prep2.py prep3.py** Added scripts for aggregation adn generation of csv files
+
+* **viz/** Visualisations
+
+ * **Radial Stacked Bar Chart**
+
+![Gif of Radial Stacked Bar](./RadialStackedBar.gif)
+
+ * **Radial Stacked Bar Chart**
+ 
+![Gif of Bubble Chart Bar](./BubbleChartAvgIncomeGini.gif)
+
+ * **Dual Y Axis Average Income Gini**
+ 
+![Gif of Radial Stacked Bar](./TwoAxisAvgIncomeGini.gif)
+
+ * **Dual Y Axis Growth BRICS Gini**
+ 
+![Gif of Radial Stacked Bar](./TwoAxisBRICSGini.gif)
+
+* **vendor/** vendorized D3 and Bootstrap libraries
 
 ## Data structure
 
@@ -21,11 +55,3 @@ The attributes present in the tables are:
 * **width** the width of the quntile (high-low)
 * **share** the share of the total income captured by this [low, high] quantile
 * **cumul** the cumulative share of the quantiles, i.e. the share of [0., high]
-
-## Sample visualizations
-
-* **histogram.html** a basic histogram showing how to select a specific year, and how to use **low**, **high**, **width** and **share**
-* **cdf.html** a cumulative distribution function plot showing a use for **cumul**
-* **time.html** a time series visualization
-
-![Gif of Radial Stacked Bar](./RadialStackedBar.gif)
