@@ -68,12 +68,12 @@ The project report is available [here](https://github.com/Omaroid/InfoVisWorldIn
 
 ## How to run ?
 
-$ git clone https://github.com/Omaroid/InfoVisWorldInequality.git
-$ cd ./InfoVisWorldInequality
-$ ls
+$ git clone https://github.com/Omaroid/InfoVisWorldInequality.git  
+$ cd ./InfoVisWorldInequality  
+$ ls  
 
-Mode	LastWriteTime	Length	Name  
-----	-------------	------	----  
+Mode	LastWriteTime	Length	Name 
+   
 d-----	06/02/2020	22:57	-	data  
 d-----	05/02/2020	20:52	-	vendor  
 d-----	06/02/2020	22:40	-	viz  
