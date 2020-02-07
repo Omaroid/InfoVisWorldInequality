@@ -22,7 +22,7 @@ Extracts of the [World Inequality Database](https://wid.world/).
 	* **merged_income_quantiles.csv** Merged file for all quantiles data by adding country name and continent name
 	* **merged_quantiles.csv** Merged file for all countries with discretized quantiles
 
-	* **prep.py prep1.py prep2.py prep3.py** Added scripts for aggregation adn generation of csv files
+	* **prep.py prep1.py prep2.py prep3.py** Added scripts for aggregation and generation of csv files
 
 * **vendor/** vendorized D3 and Bootstrap libraries
 
