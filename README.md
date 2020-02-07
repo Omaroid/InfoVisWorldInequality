@@ -26,6 +26,8 @@ Extracts of the [World Inequality Database](https://wid.world/).
 
 * **viz/** Visualisations
 
+## Visualisations
+
  * **Radial Stacked Bar Chart**
 
 ![Gif of Radial Stacked Bar](./RadialStackedBar.gif)
@@ -55,3 +57,11 @@ The attributes present in the tables are:
 * **width** the width of the quntile (high-low)
 * **share** the share of the total income captured by this [low, high] quantile
 * **cumul** the cumulative share of the quantiles, i.e. the share of [0., high]
+
+## How to run ?
+
+$ python3 -m http.server
+
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+
+You can observe the result by pointing a browser to http://localhost:8000/viz/.
