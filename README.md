@@ -60,7 +60,7 @@ The attributes present in the tables are:
 
 ## Slides
 
-The slides for the presentation are available [here](https://github.com/Omaroid/InfoVisWorldInequality/blob/master/Info%20Visulization%20Presentation.pptx) and in Google slides [here](http://bit.ly/SlidesInfoVis)
+The slides for the presentation are available [here](https://github.com/Omaroid/InfoVisWorldInequality/blob/master/Info%20Visulization%20Presentation.pptx) and in Google slides [here](http://bit.ly/SlidesInfoVis)  
 
 ## Project report
 
@@ -79,7 +79,7 @@ The project report is available [here](https://github.com/Omaroid/InfoVisWorldIn
 d-----	06/02/2020	22:57	-	data  
 d-----	05/02/2020	20:52	-	vendor  
 d-----	06/02/2020	22:40	-	viz  
--a----	07/02/2020	11:27	346945	BubbleChartAvgIncomeGini.gif
+-a----	07/02/2020	11:27	346945	BubbleChartAvgIncomeGini.gif  
 -a----	07/02/2020	13:00	2068564	Info Visulization Presentation.pptx    
 -a----	07/02/2020	12:38	93859	Project_Info_Visualization_Report.pdf  
 -a----	07/02/2020	01:49	1028410	RadialStackedBar.gif  
