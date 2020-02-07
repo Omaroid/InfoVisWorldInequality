@@ -68,11 +68,13 @@ The project report is available [here](https://github.com/Omaroid/InfoVisWorldIn
 
 ## How to run ?
 
-$ git clone https://github.com/Omaroid/InfoVisWorldInequality.git  
-$ cd ./InfoVisWorldInequality  
-$ ls  
-
-Mode	LastWriteTime	Length	Name 
+**$ git clone https://github.com/Omaroid/InfoVisWorldInequality.git**
+  
+**$ cd ./InfoVisWorldInequality**  
+  
+**$ ls**  
+  
+*Mode	LastWriteTime	Length	Name* 
    
 d-----	06/02/2020	22:57	-	data  
 d-----	05/02/2020	20:52	-	vendor  
@@ -84,7 +86,8 @@ d-----	06/02/2020	22:40	-	viz
 -a----	07/02/2020	11:26	270676	TwoAxisAvgIncomeGini.gif  
 -a----	07/02/2020	11:24	150306	TwoAxisBRICSGini.gif  
 
-$ python(3) -m http.server
+**$ python(3) -m http.server**
 
-Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...  
+  
 You can observe the result by pointing a browser to http://localhost:8000/viz/.
