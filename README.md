@@ -72,17 +72,17 @@ $ git clone https://github.com/Omaroid/InfoVisWorldInequality.git
 $ cd ./InfoVisWorldInequality
 $ ls
 
-Mode                LastWriteTime         Length Name
-----                -------------         ------ ----
-d-----       06/02/2020     22:57                data
-d-----       05/02/2020     20:52                vendor
-d-----       06/02/2020     22:40                viz
--a----       07/02/2020     11:27         346945 BubbleChartAvgIncomeGini.gif
--a----       07/02/2020     12:38          93859 Project_Info_Visualization_Report.pdf
--a----       07/02/2020     01:49        1028410 RadialStackedBar.gif
--a----       07/02/2020     12:39           2438 README.md
--a----       07/02/2020     11:26         270676 TwoAxisAvgIncomeGini.gif
--a----       07/02/2020     11:24         150306 TwoAxisBRICSGini.gif
+Mode                LastWriteTime         Length Name  
+----                -------------         ------ ----  
+d-----       06/02/2020     22:57                data  
+d-----       05/02/2020     20:52                vendor  
+d-----       06/02/2020     22:40                viz  
+-a----       07/02/2020     11:27         346945 BubbleChartAvgIncomeGini.gif  
+-a----       07/02/2020     12:38          93859 Project_Info_Visualization_Report.pdf  
+-a----       07/02/2020     01:49        1028410 RadialStackedBar.gif  
+-a----       07/02/2020     12:39           2438 README.md  
+-a----       07/02/2020     11:26         270676 TwoAxisAvgIncomeGini.gif  
+-a----       07/02/2020     11:24         150306 TwoAxisBRICSGini.gif  
 
 $ python(3) -m http.server
 
