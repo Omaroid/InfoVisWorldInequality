@@ -58,6 +58,14 @@ The attributes present in the tables are:
 * **share** the share of the total income captured by this [low, high] quantile
 * **cumul** the cumulative share of the quantiles, i.e. the share of [0., high]
 
+## Slides
+
+The slides for the presentation are available [here](http://bit.ly/SlidesInfoVis)
+
+## The report
+
+The project report is available [here](http://bit.ly/SlidesInfoVis)
+
 ## How to run ?
 
 $ python3 -m http.server
