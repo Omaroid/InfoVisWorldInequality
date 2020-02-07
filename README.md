@@ -24,6 +24,8 @@ Extracts of the [World Inequality Database](https://wid.world/).
 
 	* **prep.py prep1.py prep2.py prep3.py** Added scripts for aggregation adn generation of csv files
 
+* **vendor/** vendorized D3 and Bootstrap libraries
+
 * **viz/** Visualisations
 
 ## Visualisations
@@ -43,8 +45,6 @@ Extracts of the [World Inequality Database](https://wid.world/).
  * **Dual Y Axis Growth BRICS Gini**
  
 ![Gif of Radial Stacked Bar](./TwoAxisBRICSGini.gif)
-
-* **vendor/** vendorized D3 and Bootstrap libraries
 
 ## Data structure
 
